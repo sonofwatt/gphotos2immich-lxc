@@ -21,7 +21,8 @@ No Docker: the app is built from source with Go and runs as a systemd service.
   plus `DISABLE_WEBUI=true`.
 - `gphotos2immich.service`, sandboxed so it can only write to
   `/opt/gphotos2immich/data` (its record of what it has already uploaded).
-- `update-gphotos2immich [tag]`: rebuilds at a release tag, newest by default.
+- `update-gphotos2immich [tag]`: rebuilds at a release tag, newest by default
+  (source in `install/update-gphotos2immich.sh`).
 
 The web UI is off. It has no password and serves the whole config, API key
 included, to anyone on the network who asks.
@@ -67,9 +68,13 @@ container and run `systemctl restart gphotos2immich`. To rotate the key, edit
 - Google serves shared albums as re-compressed copies, so photos already in
   Immich from a phone will show up twice. Immich's duplicate review cleans
   those up.
-- The app holds each photo in memory while it uploads, several at a time, so
-  512 MB is not enough: the first sync of a large album was killed for running
-  out of memory. 2 GB is the default.
+- The app holds each item in memory while it uploads, several at a time, so
+  512 MB is not enough. 2 GB is the default.
+- `update-gphotos2immich` applies one local patch when it builds: skip videos
+  *before* downloading them. Upstream v1.7.4 downloads each whole video into
+  memory and only then checks `skipVideos`, so an album with long videos gets
+  the service OOM-killed in a loop. The patch is skipped if upstream already
+  does this.
 - The app scrapes Google's shared-album pages. A change on Google's side can
   break it until the app is updated.
 

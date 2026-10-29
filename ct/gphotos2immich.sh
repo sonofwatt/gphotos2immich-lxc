@@ -21,7 +21,6 @@ SCRIPT_DIR=""
 if [[ -n "${BASH_SOURCE[0]:-}" && -f "${BASH_SOURCE[0]}" ]]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
-INSTALL_SCRIPT="${SCRIPT_DIR:+${SCRIPT_DIR}/../install/${NSAPP}-install.sh}"
 
 # Defaults (Advanced settings can change all of these)
 var_cpu="1"
@@ -206,12 +205,15 @@ stage_files() {
   )
   pct push "${CTID}" "${STAGE_DIR}/gphotos2immich.env" /root/gphotos2immich.env --perms 600
   pct push "${CTID}" "${STAGE_DIR}/settings" /root/gphotos2immich.settings --perms 600
-  if [[ -n "${INSTALL_SCRIPT}" && -f "${INSTALL_SCRIPT}" ]]; then
-    cp "${INSTALL_SCRIPT}" "${STAGE_DIR}/install.sh"
-  else
-    curl -fsSL -o "${STAGE_DIR}/install.sh" "${REPO_RAW}/install/${NSAPP}-install.sh"
-  fi
-  pct push "${CTID}" "${STAGE_DIR}/install.sh" /root/gphotos2immich-install.sh --perms 700
+  local f
+  for f in "${NSAPP}-install.sh" "update-${NSAPP}.sh"; do
+    if [[ -n "${SCRIPT_DIR}" && -f "${SCRIPT_DIR}/../install/${f}" ]]; then
+      cp "${SCRIPT_DIR}/../install/${f}" "${STAGE_DIR}/${f}"
+    else
+      curl -fsSL -o "${STAGE_DIR}/${f}" "${REPO_RAW}/install/${f}"
+    fi
+    pct push "${CTID}" "${STAGE_DIR}/${f}" "/root/${f}" --perms 700
+  done
   rm -rf "${STAGE_DIR}"
   unset STAGE_DIR IMMICH_KEY
 }
