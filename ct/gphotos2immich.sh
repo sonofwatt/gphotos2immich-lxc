@@ -33,7 +33,7 @@ var_hostname="${NSAPP}"
 var_album_url=""
 var_album_name="" # blank: use the Google album's own title
 var_interval="1h"
-var_skip_videos="false"
+var_skip_videos="true"
 
 # ---------- look and feel ----------
 YW=$'\033[33m'; BL=$'\033[36m'; RD=$'\033[01;31m'; GN=$'\033[1;92m'
@@ -112,7 +112,7 @@ pick_storage() { # pick_storage <content> <title>
 settings() {
   CTID=$(pvesh get /cluster/nextid)
   if whiptail --backtitle "Proxmox VE Helper Scripts" --title "${APP} LXC" \
-    --yesno "Use default settings?\n\n  ${var_cpu} CPU, ${var_ram} MB RAM, ${var_disk} GB disk\n  Debian 13, unprivileged, DHCP on ${var_bridge}\n  Album checked every ${var_interval}, videos included" 14 64; then
+    --yesno "Use default settings?\n\n  ${var_cpu} CPU, ${var_ram} MB RAM, ${var_disk} GB disk\n  Debian 13, unprivileged, DHCP on ${var_bridge}\n  Album checked every ${var_interval}, photos only" 14 64; then
     ADVANCED=0
   else
     ADVANCED=1
@@ -128,8 +128,8 @@ settings() {
     var_album_name=$(ask "Album" "Album name in Immich (blank: same as Google):" "${var_album_name}")
     var_interval=$(ask "Schedule" "Check the album every (e.g. 30m, 1h, 12h):" "${var_interval}")
     if whiptail --backtitle "Proxmox VE Helper Scripts" --title "Videos" \
-      --defaultno --yesno "Skip videos and copy photos only?" 8 50; then
-      var_skip_videos="true"
+      --defaultno --yesno "Copy videos as well as photos?" 8 50; then
+      var_skip_videos="false"
     fi
   fi
 

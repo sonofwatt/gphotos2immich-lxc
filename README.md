@@ -15,7 +15,8 @@ No Docker: the app is built from source with Go and runs as a systemd service.
   version whose code was reviewed), owned by root and run as the unprivileged
   `gphotos2immich` user.
 - `/opt/gphotos2immich/config.json`: the album link, its name in Immich and the
-  sync interval. It holds no secrets.
+  sync interval. It holds no secrets. Photos only by default (`skipVideos`);
+  Advanced settings can include videos.
 - `/etc/gphotos2immich.env` (root only, mode 600): the Immich API key and URL,
   plus `DISABLE_WEBUI=true`.
 - `gphotos2immich.service`, sandboxed so it can only write to
