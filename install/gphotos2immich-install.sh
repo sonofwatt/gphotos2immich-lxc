@@ -19,6 +19,10 @@ ENV_FILE=/etc/gphotos2immich.env
 # shellcheck source=/dev/null
 source /root/gphotos2immich.settings
 export DEBIAN_FRONTEND=noninteractive
+# pct exec passes the host's LANG (e.g. en_US.UTF-8), which a fresh template
+# has not generated, so perl and apt complain. C.UTF-8 is always present.
+export LANG=C.UTF-8 LC_ALL=C.UTF-8
+unset LANGUAGE
 
 msg_info "Updating the OS"
 apt-get update -qq
