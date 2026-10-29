@@ -9,7 +9,7 @@ No Docker: the app is built from source with Go and runs as a systemd service.
 
 ## What it creates
 
-- Unprivileged Debian 13 LXC: 1 CPU, 512 MB RAM (plus 512 MB swap), 4 GB disk,
+- Unprivileged Debian 13 LXC: 1 CPU, 2 GB RAM (plus 512 MB swap), 4 GB disk,
   DHCP on `vmbr0`, starts at boot. Advanced settings change any of these.
 - `/opt/gphotos2immich/gphotos2immich`, built from release `v1.7.4` (the
   version whose code was reviewed), owned by root and run as the unprivileged
@@ -67,6 +67,9 @@ container and run `systemctl restart gphotos2immich`. To rotate the key, edit
 - Google serves shared albums as re-compressed copies, so photos already in
   Immich from a phone will show up twice. Immich's duplicate review cleans
   those up.
+- The app holds each photo in memory while it uploads, several at a time, so
+  512 MB is not enough: the first sync of a large album was killed for running
+  out of memory. 2 GB is the default.
 - The app scrapes Google's shared-album pages. A change on Google's side can
   break it until the app is updated.
 

@@ -25,7 +25,7 @@ INSTALL_SCRIPT="${SCRIPT_DIR:+${SCRIPT_DIR}/../install/${NSAPP}-install.sh}"
 
 # Defaults (Advanced settings can change all of these)
 var_cpu="1"
-var_ram="512"
+var_ram="2048"
 var_swap="512"
 var_disk="4"
 var_bridge="vmbr0"
@@ -173,7 +173,7 @@ create_container() {
     --cores "${var_cpu}" --memory "${var_ram}" --swap "${var_swap}" \
     --rootfs "${CONTAINER_STORAGE}:${var_disk}" \
     --net0 "name=eth0,bridge=${var_bridge},ip=dhcp" \
-    --unprivileged 1 --features nesting=1 --onboot 1 \
+    --unprivileged 1 --features nesting=1 --onboot 1 --timezone host \
     --ostype debian --tags "${NSAPP}" \
     --description "${APP} ${GPI_VERSION}: copies a Google Photos shared album into Immich. Built from https://github.com/warreth/gPhotos2Immich; update with: update-gphotos2immich" \
     >/dev/null
