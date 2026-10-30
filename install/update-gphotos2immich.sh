@@ -2,6 +2,10 @@
 # Build and install gPhotos2Immich at a release tag (default: newest release).
 # Usage: update-gphotos2immich [vX.Y.Z]
 set -Eeuo pipefail
+# pct exec passes the host's LANG, which the container may not have, so perl
+# warns. C.UTF-8 is always present.
+export LANG=C.UTF-8 LC_ALL=C.UTF-8
+unset LANGUAGE
 SRC_DIR=/opt/gphotos2immich-src
 APP_DIR=/opt/gphotos2immich
 REPO=https://github.com/warreth/gPhotos2Immich
