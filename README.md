@@ -53,9 +53,12 @@ checks the key against Immich and starts the service.
 
 ```bash
 pct exec <CTID> -- journalctl -u gphotos2immich -f
-pct exec <CTID> -- update-gphotos2immich
-pct exec <CTID> -- update-gphotos2immich v1.7.4
+pct exec <CTID> -- /usr/local/bin/update-gphotos2immich
+pct exec <CTID> -- /usr/local/bin/update-gphotos2immich v1.7.4
 ```
+
+`pct exec` runs commands without a login shell, so `/usr/local/bin` may not be
+on its PATH; give the full path as above.
 
 To change the album or interval, edit `/opt/gphotos2immich/config.json` in the
 container and run `systemctl restart gphotos2immich`. To rotate the key, edit

@@ -237,7 +237,7 @@ main() {
   echo
   msg_ok "${APP} ${GPI_VERSION} is running in LXC ${CTID} (${var_hostname}, ${ip})"
   echo -e "   Logs:    ${BL}pct exec ${CTID} -- journalctl -u gphotos2immich -f${CL}"
-  echo -e "   Update:  ${BL}pct exec ${CTID} -- update-gphotos2immich [tag]${CL}"
+  echo -e "   Update:  ${BL}pct exec ${CTID} -- /usr/local/bin/update-gphotos2immich [tag]${CL}"
 }
 
 main "$@"
