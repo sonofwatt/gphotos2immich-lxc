@@ -141,7 +141,7 @@ settings() {
   [[ "${IMMICH_URL}" == */api ]] || IMMICH_URL="${IMMICH_URL}/api"
 
   IMMICH_KEY=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "Immich API key" \
-    --passwordbox "Immich API key. Permissions needed:\nasset.read, asset.upload, album.create, album.read,\nalbum.update, albumAsset.create, user.read" 12 70 3>&1 1>&2 2>&3) || cancelled
+    --passwordbox "Immich API key. Permissions needed:\nasset.read, asset.upload, asset.update, album.create,\nalbum.read, album.update, albumAsset.create, user.read" 12 70 3>&1 1>&2 2>&3) || cancelled
   [[ -n "${IMMICH_KEY}" ]] || { msg_error "An Immich API key is required"; exit 1; }
 
   var_album_url=$(ask "Google Photos" "Shared album link (must open in a private window):" "${var_album_url}")

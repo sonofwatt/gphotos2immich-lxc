@@ -30,8 +30,10 @@ included, to anyone on the network who asks.
 ## Before you run it
 
 1. In Immich, create an API key with these permissions:
-   `asset.read`, `asset.upload`, `album.create`, `album.read`, `album.update`,
-   `albumAsset.create`, `user.read`.
+   `asset.read`, `asset.upload`, `asset.update`, `album.create`, `album.read`,
+   `album.update`, `albumAsset.create`, `user.read`. Without `asset.update` the
+   sync still works, but it logs "Failed to link motion video" warnings when a
+   motion photo is already in Immich.
 2. Check the album link opens in a private browser window (only public shared
    links work).
 
